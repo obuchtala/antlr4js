@@ -1,0 +1,20 @@
+{
+  "modules": [
+    {
+      "repository": "git@github.com:oliver----/antlr4js.git",
+      "folder": ".",
+      "branch": "master"
+    }
+  ],
+  "node_modules": {
+    "underscore": "1.5.x",
+    "express": "3.3.x",
+    "mocha": "1.12.x"
+  },
+  "npm": {
+    "engines": {
+      "node": ">=0.8.x",
+      "npm": ">=1.1.x"
+    }
+  }
+}

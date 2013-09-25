@@ -33,45 +33,45 @@ var Token = function() {};
 
 Token.__prototype__ = function() {
 
-	this.getText = function() {
-		throw new Error("Abstract.");
-	};
+  this.getText = function() {
+    throw new Error("Abstract.");
+  };
 
-	this.getType = function() {
-		throw new Error("Abstract.");
-	};
+  this.getType = function() {
+    throw new Error("Abstract.");
+  };
 
-	this.getLine = function() {
-		throw new Error("Abstract.");
-	};
+  this.getLine = function() {
+    throw new Error("Abstract.");
+  };
 
-	this.getCharPositionInLine = function() {
-		throw new Error("Abstract.");
-	};
+  this.getCharPositionInLine = function() {
+    throw new Error("Abstract.");
+  };
 
-	this.getChannel = function() {
-		throw new Error("Abstract.");
-	};
+  this.getChannel = function() {
+    throw new Error("Abstract.");
+  };
 
-	this.getTokenIndex = function() {
-		throw new Error("Abstract.");
-	};
+  this.getTokenIndex = function() {
+    throw new Error("Abstract.");
+  };
 
-	this.getStartIndex = function() {
-		throw new Error("Abstract.");
-	};
+  this.getStartIndex = function() {
+    throw new Error("Abstract.");
+  };
 
-	this.getStopIndex = function() {
-		throw new Error("Abstract.");
-	};
+  this.getStopIndex = function() {
+    throw new Error("Abstract.");
+  };
 
-	this.getTokenSource = function() {
-		throw new Error("Abstract.");
-	};
+  this.getTokenSource = function() {
+    throw new Error("Abstract.");
+  };
 
-	this.getInputStream = function() {
-		throw new Error("Abstract.");
-	};
+  this.getInputStream = function() {
+    throw new Error("Abstract.");
+  };
 };
 Token.prototype = new Token.__prototype__();
 

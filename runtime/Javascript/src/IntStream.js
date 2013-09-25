@@ -31,39 +31,39 @@
 var IntStream = function() {};
 
 IntStream.__prototype__ = function() {
-	/*jshint unused:false */
+  /*jshint unused:false */
 
-	this.consume = function() {
-		throw new Error("Abstract.");
-	};
+  this.consume = function() {
+    throw new Error("Abstract.");
+  };
 
-	this.LA = function(i) {
-		throw new Error("Abstract.");
-	};
+  this.LA = function(i) {
+    throw new Error("Abstract.");
+  };
 
-	this.mark = function() {
-		throw new Error("Abstract.");
-	};
+  this.mark = function() {
+    throw new Error("Abstract.");
+  };
 
-	this.release = function(marker) {
-		throw new Error("Abstract.");
-	};
+  this.release = function(marker) {
+    throw new Error("Abstract.");
+  };
 
-	this.index = function() {
-		throw new Error("Abstract.");
-	};
+  this.index = function() {
+    throw new Error("Abstract.");
+  };
 
-	this.seek = function(index) {
-		throw new Error("Abstract.");
-	};
+  this.seek = function(index) {
+    throw new Error("Abstract.");
+  };
 
-	this.size = function() {
-		throw new Error("Abstract.");
-	};
+  this.size = function() {
+    throw new Error("Abstract.");
+  };
 
-	this.getSourceName = function() {
-		throw new Error("Abstract.");
-	};
+  this.getSourceName = function() {
+    throw new Error("Abstract.");
+  };
 };
 IntStream.prototype = new IntStream.__prototype__();
 

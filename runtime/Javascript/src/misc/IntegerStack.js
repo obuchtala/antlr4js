@@ -31,22 +31,22 @@
 var IntegerList = require("./IntegerList");
 
 var IntegerStack = function() {
-	IntegerList.apply(this, arguments);
+  IntegerList.apply(this, arguments);
 };
 
 IntegerStack.__prototype__ = function() {
 
-	this.push = function(value) {
-		this.add(value);
-	};
+  this.push = function(value) {
+    this.add(value);
+  };
 
-	this.pop = function() {
-		return this.removeAt(this.size() - 1);
-	};
+  this.pop = function() {
+    return this.removeAt(this.size() - 1);
+  };
 
-	this.peek = function() {
-		return this.get(this.size() - 1);
-	};
+  this.peek = function() {
+    return this.get(this.size() - 1);
+  };
 
 };
 IntegerStack.__prototype__.prototype = IntegerList.prototype;

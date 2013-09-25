@@ -32,29 +32,29 @@ var Interval = require("./misc/Interval");
 var CommonToken = require("./CommonToken");
 
 var CommonTokenFactory = function() {
-	this.copyText = false;
-	if (arguments.length === 1) {
-		this.copyText = arguments[0];
-	}
+  this.copyText = false;
+  if (arguments.length === 1) {
+    this.copyText = arguments[0];
+  }
 };
 
 CommonTokenFactory.__prototype__ = function() {
 
-	this.create = function(source, type, text, channel, start, stop, line, charPositionInLine) {
-		var t = new CommonToken(source, type, channel, start, stop);
-		t.setLine(line);
-		t.setCharPositionInLine(charPositionInLine);
-		if (text !== null) {
-			t.setText(text);
-		} else if (this.copyText && source.b !== null) {
-			t.setText(source.b.getText(Interval.of(start, stop)));
-		}
-		return t;
-	};
+  this.create = function(source, type, text, channel, start, stop, line, charPositionInLine) {
+    var t = new CommonToken(source, type, channel, start, stop);
+    t.setLine(line);
+    t.setCharPositionInLine(charPositionInLine);
+    if (text !== null) {
+      t.setText(text);
+    } else if (this.copyText && source.b !== null) {
+      t.setText(source.b.getText(Interval.of(start, stop)));
+    }
+    return t;
+  };
 
-	this.create = function(type, text) {
-		return new CommonToken(type, text);
-	};
+  this.create = function(type, text) {
+    return new CommonToken(type, text);
+  };
 };
 
 CommonTokenFactory.DEFAULT = new CommonTokenFactory();

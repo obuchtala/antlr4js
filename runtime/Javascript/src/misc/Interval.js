@@ -29,73 +29,73 @@
  */
 
 var Interval = function(a, b) {
-	this.a = a;
-	this.b = b;
+  this.a = a;
+  this.b = b;
 };
 
 Interval.__prototype__ = function() {
 
-	this.length = function() {
-		if (this.b < this.a) return 0;
-		return this.b - this.a + 1;
-	};
+  this.length = function() {
+    if (this.b < this.a) return 0;
+    return this.b - this.a + 1;
+  };
 
-	this.startsBeforeDisjoint = function(other) {
-		return this.a < other.a && this.b < other.a;
-	};
+  this.startsBeforeDisjoint = function(other) {
+    return this.a < other.a && this.b < other.a;
+  };
 
-	this.startsBeforeNonDisjoint = function(other) {
-		return this.a <= other.a && this.b >= other.a;
-	};
+  this.startsBeforeNonDisjoint = function(other) {
+    return this.a <= other.a && this.b >= other.a;
+  };
 
-	this.startsAfter = function(other) {
-		return this.a > other.a;
-	};
+  this.startsAfter = function(other) {
+    return this.a > other.a;
+  };
 
-	this.startsAfterDisjoint = function(other) {
-		return this.a > other.b;
-	};
+  this.startsAfterDisjoint = function(other) {
+    return this.a > other.b;
+  };
 
-	this.startsAfterNonDisjoint = function(other) {
-		return this.a > other.a && this.a <= other.b;
-	};
+  this.startsAfterNonDisjoint = function(other) {
+    return this.a > other.a && this.a <= other.b;
+  };
 
-	this.disjoint = function(other) {
-		return this.startsBeforeDisjoint(other) || this.startsAfterDisjoint(other);
-	};
+  this.disjoint = function(other) {
+    return this.startsBeforeDisjoint(other) || this.startsAfterDisjoint(other);
+  };
 
-	this.adjacent = function(other) {
-		return this.a === other.b + 1 || this.b === other.a - 1;
-	};
+  this.adjacent = function(other) {
+    return this.a === other.b + 1 || this.b === other.a - 1;
+  };
 
-	this.properlyContains = function(other) {
-		return other.a >= this.a && other.b <= this.b;
-	};
+  this.properlyContains = function(other) {
+    return other.a >= this.a && other.b <= this.b;
+  };
 
-	this.union = function(other) {
-		return Interval.of(Math.min(this.a, other.a), Math.max(this.b, other.b));
-	};
+  this.union = function(other) {
+    return Interval.of(Math.min(this.a, other.a), Math.max(this.b, other.b));
+  };
 
-	this.intersection = function(other) {
-		return Interval.of(Math.max(this.a, other.a), Math.min(this.b, other.b));
-	};
+  this.intersection = function(other) {
+    return Interval.of(Math.max(this.a, other.a), Math.min(this.b, other.b));
+  };
 
-	this.differenceNotProperlyContained = function(other) {
-		var diff = null;
-		// other.a to left of this.a (or same)
-		if (other.startsBeforeNonDisjoint(this)) {
-			diff = Interval.of(Math.max(this.a, other.b + 1), this.b);
-		}
-		// other.a to right of this.a
-		else if (other.startsAfterNonDisjoint(this)) {
-			diff = Interval.of(this.a, other.a - 1);
-		}
-		return diff;
-	};
+  this.differenceNotProperlyContained = function(other) {
+    var diff = null;
+    // other.a to left of this.a (or same)
+    if (other.startsBeforeNonDisjoint(this)) {
+      diff = Interval.of(Math.max(this.a, other.b + 1), this.b);
+    }
+    // other.a to right of this.a
+    else if (other.startsAfterNonDisjoint(this)) {
+      diff = Interval.of(this.a, other.a - 1);
+    }
+    return diff;
+  };
 
-	this.toString = function() {
-		return this.a + ".." + this.b;
-	};
+  this.toString = function() {
+    return this.a + ".." + this.b;
+  };
 
 };
 Interval.prototype = new Interval.__prototype__();
@@ -110,13 +110,13 @@ Interval.hits = 0;
 Interval.outOfRange = 0;
 
 Interval.of = function(a, b) {
-	if (a !== b || a < 0 || a > Interval.INTERVAL_POOL_MAX_VALUE) {
-		return new Interval(a, b);
-	}
-	if (!Interval.cache[a]) {
-		Interval.cache[a] = new Interval(a, a);
-	}
-	return Interval.cache[a];
+  if (a !== b || a < 0 || a > Interval.INTERVAL_POOL_MAX_VALUE) {
+    return new Interval(a, b);
+  }
+  if (!Interval.cache[a]) {
+    Interval.cache[a] = new Interval(a, a);
+  }
+  return Interval.cache[a];
 };
 
 module.exports = Interval;

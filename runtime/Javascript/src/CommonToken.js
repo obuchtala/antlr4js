@@ -47,7 +47,7 @@ var CommonToken = function() {
 	var type;
 	if (arguments.length === 1) {
 		var arg = arguments[0];
-		if(_.isBoolean(arg)) {
+		if (_.isBoolean(arg)) {
 			this.type = arg;
 		} else {
 			var oldToken = arg;
@@ -61,8 +61,7 @@ var CommonToken = function() {
 			this.stop = oldToken.getStopIndex();
 			if (oldToken instanceof CommonToken) {
 				this.source = oldToken.source;
-			}
-			else {
+			} else {
 				this.source = new Pair(oldToken.getTokenSource(), oldToken.getInputStream());
 			}
 		}
@@ -104,17 +103,16 @@ CommonToken.__prototype__ = function() {
 	};
 
 	this.getText = function() {
-		if ( this.text !== null ) {
+		if (this.text !== null) {
 			return this.text;
 		}
 
 		var input = this.getInputStream();
-		if ( input === null ) return null;
+		if (input === null) return null;
 		var n = input.size();
-		if ( this.start < n && this.stop < n) {
-			return input.getText(Interval.of(this.start,this.stop));
-		}
-		else {
+		if (this.start < n && this.stop < n) {
+			return input.getText(Interval.of(this.start, this.stop));
+		} else {
 			return "<EOF>";
 		}
 	};
@@ -181,16 +179,15 @@ CommonToken.__prototype__ = function() {
 
 	this.toString = function() {
 		var channelStr = "";
-		if ( this.channel > 0 ) {
+		if (this.channel > 0) {
 			channelStr = ",channel=" + this.channel;
 		}
 		var txt = this.getText();
-		if ( txt !== null ) {
-			txt = txt.replace("\n","\\n");
-			txt = txt.replace("\r","\\r");
-			txt = txt.replace("\t","\\t");
-		}
-		else {
+		if (txt !== null) {
+			txt = txt.replace("\n", "\\n");
+			txt = txt.replace("\r", "\\r");
+			txt = txt.replace("\t", "\\t");
+		} else {
 			txt = "<no text>";
 		}
 		return ["[@", this.getTokenIndex(), ",", this.start, ":", this.stop, "='", txt, "',<", this.type, ">",

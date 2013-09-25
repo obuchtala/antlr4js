@@ -28,7 +28,7 @@
  *  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-var Pair = function (a, b) {
+var Pair = function(a, b) {
   this.a = a;
   this.b = b;
 };

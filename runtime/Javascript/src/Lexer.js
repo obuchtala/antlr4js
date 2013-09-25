@@ -35,7 +35,7 @@ var Token = require("./Token");
 var CommonTokenFactory = require("./CommonTokenFactory");
 var IntStream = require("./IntStream");
 
-var Lexer = function (input) {
+var Lexer = function(input) {
 
 	// public CharStream _input;
 	this._input = input;
@@ -73,7 +73,7 @@ Lexer.__prototype__ = function() {
 		var _input = this._input;
 
 		// wack Lexer state variables
-		if ( _input !== null ) {
+		if (_input !== null) {
 			_input.seek(0); // rewind the input
 		}
 		this._token = null;
@@ -100,9 +100,8 @@ Lexer.__prototype__ = function() {
 		// Mark start location in char stream so unbuffered streams are
 		// guaranteed at least have text of current token
 		var tokenStartMarker = this._input.mark();
-		try{
-			outer:
-			while (true) {
+		try {
+			outer: while (true) {
 				if (this._hitEOF) {
 					this.emitEOF();
 					return this._token;
@@ -119,25 +118,23 @@ Lexer.__prototype__ = function() {
 					var ttype;
 					try {
 						ttype = this.getInterpreter().match(this._input, this._mode);
-					}
-					catch (err) {
-						this.notifyListeners(err);		// report error
+					} catch (err) {
+						this.notifyListeners(err); // report error
 						this.recover(err);
 						ttype = Lexer.SKIP;
 					}
-					if ( this._input.LA(1) === IntStream.EOF ) {
+					if (this._input.LA(1) === IntStream.EOF) {
 						this._hitEOF = true;
 					}
-					if ( this._type === Token.INVALID_TYPE ) this._type = ttype;
-					if ( this._type === Lexer.SKIP ) {
+					if (this._type === Token.INVALID_TYPE) this._type = ttype;
+					if (this._type === Lexer.SKIP) {
 						continue outer;
 					}
-				} while ( this._type === Lexer.MORE );
-				if ( this._token === null ) this.emit();
+				} while (this._type === Lexer.MORE);
+				if (this._token === null) this.emit();
 				return this._token;
 			}
-		}
-		finally {
+		} finally {
 			this._input.release(tokenStartMarker);
 		}
 	};
@@ -160,8 +157,8 @@ Lexer.__prototype__ = function() {
 	};
 
 	this.popMode = function() {
-		if ( this._modeStack.isEmpty() ) throw new Error("Empty Stack.");
-		this.mode( this._modeStack.pop() );
+		if (this._modeStack.isEmpty()) throw new Error("Empty Stack.");
+		this.mode(this._modeStack.pop());
 		return this._mode;
 	};
 
@@ -192,8 +189,8 @@ Lexer.__prototype__ = function() {
 	this.emit = function(token) {
 		if (arguments.length === 0) {
 			token = this._factory.create(this._tokenFactorySourcePair, this._type,
-					this._text, this._channel, this._tokenStartCharIndex, this.getCharIndex()-1,
-					this._tokenStartLine, this._tokenStartCharPositionInLine);
+				this._text, this._channel, this._tokenStartCharIndex, this.getCharIndex() - 1,
+				this._tokenStartLine, this._tokenStartCharPositionInLine);
 		}
 		this._token = token;
 		return token;
@@ -201,12 +198,12 @@ Lexer.__prototype__ = function() {
 
 	this.emitEOF = function() {
 		var cpos = this.getCharPositionInLine();
-		if ( this._token !== null ) {
+		if (this._token !== null) {
 			var n = this._token.getStopIndex() - this._token.getStartIndex() + 1;
-			cpos = this._token.getCharPositionInLine()+n;
+			cpos = this._token.getCharPositionInLine() + n;
 		}
 		var eof = this._factory.create(this._tokenFactorySourcePair, Token.EOF, null, Token.DEFAULT_CHANNEL,
-			this._input.index(), this._input.index()-1, this.getLine(), cpos);
+			this._input.index(), this._input.index() - 1, this.getLine(), cpos);
 
 		return this.emit(eof);
 	};
@@ -232,7 +229,7 @@ Lexer.__prototype__ = function() {
 	};
 
 	this.getText = function() {
-		if ( this._text !== null ) {
+		if (this._text !== null) {
 			return this._text;
 		}
 		return this.getInterpreter().getText(this._input);
@@ -277,7 +274,7 @@ Lexer.__prototype__ = function() {
 	this.getAllTokens = function() {
 		var tokens = [];
 		var t = this.nextToken();
-		while ( t.getType() !== Token.EOF ) {
+		while (t.getType() !== Token.EOF) {
 			tokens.push(t);
 			t = this.nextToken();
 		}
@@ -292,7 +289,7 @@ Lexer.__prototype__ = function() {
 
 	this.notifyListeners = function(err) {
 		var text = this._input.getText(Interval.of(this._tokenStartCharIndex, this._input.index()));
-		var msg = "token recognition error at: '"+ this.getErrorDisplay(text) + "'";
+		var msg = "token recognition error at: '" + this.getErrorDisplay(text) + "'";
 
 		var listener = this.getErrorListenerDispatch();
 		listener.syntaxError(this, null, this._tokenStartLine, this._tokenStartCharPositionInLine, msg, err);
@@ -313,17 +310,17 @@ Lexer.__prototype__ = function() {
 
 	this.getCharErrorDisplay = function(c) {
 		var s = "<?>";
-		switch ( c ) {
-			case Token.EOF :
+		switch (c) {
+			case Token.EOF:
 				s = "<EOF>";
 				break;
-			case '\n' :
+			case '\n':
 				s = "\\n";
 				break;
-			case '\t' :
+			case '\t':
 				s = "\\t";
 				break;
-			case '\r' :
+			case '\r':
 				s = "\\r";
 				break;
 		}

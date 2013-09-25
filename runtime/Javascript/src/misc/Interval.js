@@ -28,7 +28,7 @@
  *  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-var Interval = function (a, b) {
+var Interval = function(a, b) {
 	this.a = a;
 	this.b = b;
 };
@@ -36,8 +36,8 @@ var Interval = function (a, b) {
 Interval.__prototype__ = function() {
 
 	this.length = function() {
-		if ( this.b < this.a ) return 0;
-		return this.b-this.a+1;
+		if (this.b < this.a) return 0;
+		return this.b - this.a + 1;
 	};
 
 	this.startsBeforeDisjoint = function(other) {
@@ -65,7 +65,7 @@ Interval.__prototype__ = function() {
 	};
 
 	this.adjacent = function(other) {
-		return this.a === other.b+1 || this.b === other.a-1;
+		return this.a === other.b + 1 || this.b === other.a - 1;
 	};
 
 	this.properlyContains = function(other) {
@@ -83,26 +83,26 @@ Interval.__prototype__ = function() {
 	this.differenceNotProperlyContained = function(other) {
 		var diff = null;
 		// other.a to left of this.a (or same)
-		if ( other.startsBeforeNonDisjoint(this) ) {
+		if (other.startsBeforeNonDisjoint(this)) {
 			diff = Interval.of(Math.max(this.a, other.b + 1), this.b);
 		}
 		// other.a to right of this.a
-		else if ( other.startsAfterNonDisjoint(this) ) {
+		else if (other.startsAfterNonDisjoint(this)) {
 			diff = Interval.of(this.a, other.a - 1);
 		}
 		return diff;
 	};
 
 	this.toString = function() {
-		return this.a+".."+this.b;
+		return this.a + ".." + this.b;
 	};
 
 };
 Interval.prototype = new Interval.__prototype__();
 
 Interval.INTERVAL_POOL_MAX_VALUE = 1000;
-Interval.INVALID = new Interval(-1,-2);
-Interval.cache = new Array(Interval.INTERVAL_POOL_MAX_VALUE+1);
+Interval.INVALID = new Interval(-1, -2);
+Interval.cache = new Array(Interval.INTERVAL_POOL_MAX_VALUE + 1);
 
 Interval.creates = 0;
 Interval.misses = 0;
@@ -110,11 +110,11 @@ Interval.hits = 0;
 Interval.outOfRange = 0;
 
 Interval.of = function(a, b) {
-	if ( a !== b || a < 0 || a > Interval.INTERVAL_POOL_MAX_VALUE ) {
-		return new Interval(a,b);
+	if (a !== b || a < 0 || a > Interval.INTERVAL_POOL_MAX_VALUE) {
+		return new Interval(a, b);
 	}
-	if ( !Interval.cache[a] ) {
-		Interval.cache[a] = new Interval(a,a);
+	if (!Interval.cache[a]) {
+		Interval.cache[a] = new Interval(a, a);
 	}
 	return Interval.cache[a];
 };

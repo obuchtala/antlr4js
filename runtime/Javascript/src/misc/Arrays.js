@@ -22,7 +22,7 @@ Arrays.binary_search = function(array, start, end, key) {
 Arrays.copyOf = function(array, newSize) {
   var copy = array.slice(0, newSize);
   if (newSize > array.length) {
-    copy = copy.concat(new Array(newSize-array.length));
+    copy = copy.concat(new Array(newSize - array.length));
   }
   return copy;
 };

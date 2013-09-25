@@ -44,11 +44,10 @@ CommonTokenFactory.__prototype__ = function() {
 		var t = new CommonToken(source, type, channel, start, stop);
 		t.setLine(line);
 		t.setCharPositionInLine(charPositionInLine);
-		if ( text !== null ) {
+		if (text !== null) {
 			t.setText(text);
-		}
-		else if ( this.copyText && source.b !== null ) {
-			t.setText(source.b.getText(Interval.of(start,stop)));
+		} else if (this.copyText && source.b !== null) {
+			t.setText(source.b.getText(Interval.of(start, stop)));
 		}
 		return t;
 	};

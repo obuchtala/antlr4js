@@ -192,6 +192,32 @@ IntegerList.__prototype__ = function() {
     this._data = Arrays.copyOf(this._data, newLength);
   };
 
+  this.equals = function(o) {
+    if (o === this) {
+      return true;
+    }
+    if (!(o instanceof IntegerList)) {
+      return false;
+    }
+    if (this._size !== o._size) {
+      return false;
+    }
+    for (var i = this._size - 1; i >= 0; i--) {
+      if (this._data[i] !== o._data[i]) {
+        return false;
+      }
+    }
+    return true;
+  };
+
+  this.hashCode = function() {
+    var hashCode = 1;
+    for (var i = 0; i < this._size; i++) {
+      hashCode = 31 * hashCode + this._data[i];
+    }
+    return hashCode;
+  };
+
 };
 IntegerList.prototype = new IntegerList.__prototype__();
 

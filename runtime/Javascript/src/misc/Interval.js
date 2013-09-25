@@ -97,6 +97,22 @@ Interval.__prototype__ = function() {
     return this.a + ".." + this.b;
   };
 
+  this.equals = function(other) {
+    if (other === this) {
+      return true;
+    }
+    if (other === null || !(other instanceof Interval)) {
+      return false;
+    }
+    return ((this.a === other.a) && (this.b === other.b));
+  };
+
+  this.hashCode = function() {
+    var hash = 23;
+    hash = hash * 31 + this.a;
+    hash = hash * 31 + this.b;
+    return hash;
+  };
 };
 Interval.prototype = new Interval.__prototype__();
 

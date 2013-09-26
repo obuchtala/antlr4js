@@ -33,6 +33,10 @@ var _ = require("underscore");
 var HashMap = function() {
   this._buckets = {};
   this._size = 0;
+
+  // if you want to use a custom hashCode/equals
+  this._hashCode = null;
+  this._equals = null;
 };
 
 HashMap.__prototype__ = function() {
@@ -47,11 +51,14 @@ HashMap.__prototype__ = function() {
   };
 
   this.put = function(key, value) {
-    if (key.hashCode === undefined || key.equals === undefined) {
+    var hashCode = this._hashCode || key.hashCode;
+    var equals = this._equals || key.equals;
+
+    if (hashCode === undefined || equals === undefined) {
       throw new Error("Keys must provide hashCode and equals functions (as with Java HashMap).");
     }
 
-    var hash = key.hashCode();
+    var hash = hashCode.call(key);
     var bucket = this._buckets[hash];
     if (bucket === undefined) {
       bucket = [];
@@ -60,7 +67,7 @@ HashMap.__prototype__ = function() {
 
     var oldValue = null;
     for (var i = bucket.length - 1; i >= 0; i--) {
-      if (bucket[i][0].equals(key)) {
+      if (equals.call(key, bucket[i][0])) {
         oldValue = bucket[i][1];
         bucket[i][1] = value;
         break;
@@ -76,18 +83,21 @@ HashMap.__prototype__ = function() {
   };
 
   this.get = function(key) {
-    if (key.hashCode === undefined || key.equals === undefined) {
+    var hashCode = this._hashCode || key.hashCode;
+    var equals = this._equals || key.equals;
+
+    if (hashCode === undefined || equals === undefined) {
       throw new Error("Keys must provide hashCode and equals functions (as with Java HashMap).");
     }
 
-    var hash = key.hashCode();
+    var hash = hashCode.call(key);
     var bucket = this._buckets[hash];
     if (bucket === undefined) {
       return null;
     }
 
     for (var i = bucket.length - 1; i >= 0; i--) {
-      if (bucket[i][0].equals(key)) {
+      if (equals.call(key, bucket[i][0])) {
         return bucket[i][1];
       }
     }
@@ -122,8 +132,21 @@ HashMap.__prototype__ = function() {
     });
   };
 
+  this.forEach = function(iterator, ctxt) {
+    _.each(this._buckets, function(bucket) {
+      for (var i = bucket.length - 1; i >= 0; i--) {
+        iterator.call(ctxt, bucket[i]);
+      }
+    });
+  };
 };
-
 HashMap.prototype = new HashMap.__prototype__();
+
+HashMap.create = function(hashCode, equals) {
+  var map = new HashMap();
+  map._hashCode = hashCode;
+  map._equals = equals;
+  return map;
+};
 
 module.exports = HashMap;

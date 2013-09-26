@@ -62,4 +62,8 @@ Arrays.fill = function(array, start, end, value) {
   }
 };
 
+Arrays.toString = function(array) {
+  return JSON.stringify(array);
+};
+
 module.exports = Arrays;
